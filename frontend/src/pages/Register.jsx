@@ -7,16 +7,16 @@ const Register = () => {
   const { create_user } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const convertToBase64 = (e) => {
+  const convertToBase64 = async (e) => {
     let reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    await reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
       setSelectedImage(reader.result);
     };
     reader.onerror = (error) => console.log("Error: ", error);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.first_name.value + " " + form.last_name.value;
@@ -45,29 +45,32 @@ const Register = () => {
         "error"
       );
       form.reset();
+    } else if (!selectedImage) {
+      swal("Attention!", "No image selected", "error");
     } else {
-      create_user(email, password)
-        .then((res) => {
-          res.user.displayName = name;
-          res.user.photoURL = image;
-          const obj = { name, image, email, password };
-          fetch("http://localhost:3000/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(obj),
-          })
-            .then((res) => res.json)
-            .then((data) => console.log(data));
-          // form.reset();
-          swal("Done", "Account has been created successfully!", "success");
-          console.log("created");
-          // window.location.href = "/";
-        })
-        .catch((error) => {
-          swal("", error.message, "warning");
+      try {
+        const res1 = await create_user(email, password);
+        res1.user.displayName = name;
+        res1.user.photoURL = image;
+        const obj = { name, image, email, password };
+
+        const res2 = await fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
         });
+        // const result = await res2.json();
+        // console.log(result);
+
+        form.reset();
+        swal("Done", "Account has been created successfully!", "success");
+        window.location.href = "/";
+      } catch (error) {
+        form.reset();
+        swal("", error.message, "warning");
+      }
     }
   };
   return (
