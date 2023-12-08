@@ -6,38 +6,42 @@ import { Link, useLoaderData, useNavigate } from "react-router-dom";
 const Login = () => {
   const data = useLoaderData();
   const { sign_in_user, sign_in_google } = useContext(AuthContext);
-  const handleGoogleSignIn = () => {
-    sign_in_google()
-      .then((res) => {
-        //console.log(res.user);
-        const obj = {
-          name: res.user.displayName,
-          image: res.user.photoURL,
-          email: res.user.email,
-          password: null,
-        };
-        let check_duplicate = false;
-        data.map((item) => {
-          if (item.email == obj.email) check_duplicate = true;
-        });
-        //console.log(check_duplicate, obj.email);
-        if (!check_duplicate) {
-          fetch("http://localhost:3000/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(obj),
-          })
-            .then((res) => res.json)
-            .then((data) => console.log(data));
-        }
-        swal("Done", "Logged in successfully!", "success");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
+  const handleGoogleSignIn = async () => {
+    try {
+      const res1 = await sign_in_google();
+      const obj = {
+        name: res1.user.displayName,
+        image: res1.user.photoURL,
+        email: res1.user.email,
+        password: "",
+      };
+      let check_duplicate = false;
+      data.map((item) => {
+        if (item.email == obj.email) check_duplicate = true;
       });
+      //console.log(check_duplicate, obj.email);
+      
+      if (!check_duplicate) {
+        console.log("not duplicate");
+        const res2 = await fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(obj),
+        });
+      }
+      swal("Done", "Logged in successfully!", "success");
+
+      const timeout = (delay) => {
+        return new Promise((res) => setTimeout(res, delay));
+      };
+      await timeout(2000);
+
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
   };
   const navigate = useNavigate();
   const handleLogin = (e) => {

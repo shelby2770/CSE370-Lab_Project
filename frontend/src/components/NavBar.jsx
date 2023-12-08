@@ -19,7 +19,6 @@ const NavBar = ({ data }) => {
         //Email of a person is always unique
         get_name = item.name;
         get_image = item.image;
-        console.log(get_image)
       }
     });
   }

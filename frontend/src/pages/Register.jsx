@@ -66,6 +66,10 @@ const Register = () => {
 
         form.reset();
         swal("Done", "Account has been created successfully!", "success");
+        const timeout = (delay) => {
+          return new Promise((res) => setTimeout(res, delay));
+        };
+        await timeout(2000);
         window.location.href = "/";
       } catch (error) {
         form.reset();
