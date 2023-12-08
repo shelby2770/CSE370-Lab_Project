@@ -12,13 +12,18 @@ const ReviewSection = () => {
       if (reviews.length != data.length) setReviews(data);
     });
   return (
-    <div className="mb-10 mx-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {reviews.map((item) => (
+    <Swiper
+      spaceBetween={20}
+      slidesPerView={3}
+      onSlideChange={() => console.log("slide change")}
+      onSwiper={(swiper) => console.log(swiper)}
+    >
+      {reviews.map((item) => (
+        <SwiperSlide key={item.id}>
           <ReviewGrid key={item.id} item={item}></ReviewGrid>
-        ))}
-      </div>
-    </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 

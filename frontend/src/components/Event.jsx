@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 
-const Brand = ({ item }) => {
+const Event = ({ item }) => {
   return (
     <div>
       <Link to={`/${item.name}`}>
         <div className="card w-90 bg-base-100 shadow-xl border-[1px]">
           <figure>
-            <img className="w-full h-[200px]" src={item.image} alt="brand" />
+            <img className="w-full h-[200px]" src={item.image} alt="event" />
           </figure>
           <div className="text-center py-4">
             <h2 className="text-xl font-medium">{item.name}</h2>
@@ -17,4 +17,4 @@ const Brand = ({ item }) => {
   );
 };
 
-export default Brand;
+export default Event;

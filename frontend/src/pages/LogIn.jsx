@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import swal from "sweetalert";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
@@ -19,8 +19,7 @@ const Login = () => {
       data.map((item) => {
         if (item.email == obj.email) check_duplicate = true;
       });
-      //console.log(check_duplicate, obj.email);
-      
+
       if (!check_duplicate) {
         console.log("not duplicate");
         const res2 = await fetch("http://localhost:3000/users", {

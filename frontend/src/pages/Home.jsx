@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import Banner from "../components/Banner";
-import Brands from "../components/Brands";
+import Events from "../components/Events";
 import ReviewSection from "../components/ReviewSection";
 import Thoughts from "../components/Thoughts";
 
@@ -10,10 +10,10 @@ const Home = () => {
     <div>
       <Banner></Banner>
       <h2 className="text-4xl text-center font-semibold my-4">
-        Our<span className="text-secondary_clr"> Brands</span>
+        Our<span className="text-secondary_clr"> Events</span>
       </h2>
       <div className="px-10">
-        <Brands obj={obj}></Brands>
+        <Events obj={obj}></Events>
       </div>
       <h2 className="text-4xl text-center font-semibold my-4">
         Review<span className="text-secondary_clr"> Section</span>

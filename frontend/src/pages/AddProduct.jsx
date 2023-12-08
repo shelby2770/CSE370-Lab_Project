@@ -7,7 +7,7 @@ const AddProduct = () => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const brand = form.brand.value;
+    const Event = form.Event.value;
     const type = form.type.value;
     const price = form.price.value;
     const description = form.description.value;
@@ -67,9 +67,9 @@ const AddProduct = () => {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Brand Name</span>
+                <span className="label-text">Event Name</span>
               </label>
-              <select className="select-w-full rounded-md border" name="brand">
+              <select className="select-w-full rounded-md border" name="Event">
                 <option>Apple</option>
                 <option>Samsung</option>
                 <option>Sony</option>

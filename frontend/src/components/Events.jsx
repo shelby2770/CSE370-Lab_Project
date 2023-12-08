@@ -1,14 +1,14 @@
-import Brand from "./Brand";
-const Brands = ({ obj }) => {
+import Event from "./Event";
+const Events = ({ obj }) => {
   return (
     <div className="mb-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {obj.map((item) => (
-          <Brand key={item.id} item={item}></Brand>
+          <Event key={item.id} item={item}></Event>
         ))}
       </div>
     </div>
   );
 };
 
-export default Brands;
+export default Events;
