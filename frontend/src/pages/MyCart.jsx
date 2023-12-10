@@ -1,12 +1,11 @@
-import { useLoaderData } from "react-router-dom";
 import CartEvent from "../components/CartEvent";
-import { createContext, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ItemContext } from "../origin";
+import { useLoaderData } from "react-router-dom";
 
-const EventContext2 = createContext();
 const MyCart = () => {
+  const data = useLoaderData();
   const [get_item, set_get_item] = useContext(ItemContext);
-  const [event, setEvent] = useState(useLoaderData());
   const user_item = get_item ? get_item["item"]["cart"] : null;
   // console.log(user_item);
   return (
@@ -15,10 +14,7 @@ const MyCart = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {user_item.map((item) => (
             // <EventContext2.Provider key={item.id} value={[event, setEvent]}>
-            <CartEvent
-              key={item.id}
-              item_pack={[item, event, setEvent]}
-            ></CartEvent>
+            <CartEvent key={item.id} item_pack={[item, data]}></CartEvent>
             // </EventContext2.Provider>
           ))}
         </div>

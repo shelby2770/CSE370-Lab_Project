@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, json, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Origin from "./origin";
 import ShowError from "./ShowError";
@@ -15,7 +15,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Origin></Origin>,
-    loader: () => fetch("http://localhost:3000/users"),
+    loader: async () => {
+      const [get_user, get_event] = await Promise.all([
+        fetch("http://localhost:3000/users").then((res) => res.json()),
+        fetch("http://localhost:3000/events").then((res) => res.json()),
+      ]);
+
+      return { get_user, get_event };
+    },
     errorElement: <ShowError></ShowError>,
     children: [
       {

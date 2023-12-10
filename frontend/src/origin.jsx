@@ -16,17 +16,8 @@ const Origin = () => {
   const [get_item, set_get_item] = useState(null);
   // const { user, log_out } = useContext(AuthContext);
   const { user } = useContext(AuthContext);
-  const data = useLoaderData();
-  // if (user) {
-  //   data.map((item) => {
-  //     if (item.email == user.email) {
-  //       //Email of a person is always unique
-  //       set_get_name(item.name);
-  //       set_get_image(item.image);
-  //       set_get_item(item.item);
-  //     }
-  //   });
-  // }
+  const data = useLoaderData()["get_user"];
+  
   useEffect(() => {
     if (user) {
       const userData = data.find((item) => item.email === user.email);
@@ -50,7 +41,7 @@ const Origin = () => {
         <NameContext.Provider value={[get_name, set_get_name]}>
           <ImageContext.Provider value={[get_image, set_get_name]}>
             <ItemContext.Provider value={[get_item, set_get_item]}>
-              <NavBar data={data}></NavBar>
+              <NavBar></NavBar>
               <Outlet></Outlet>
               <Footer></Footer>
             </ItemContext.Provider>

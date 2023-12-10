@@ -6,11 +6,10 @@ import Swal from "sweetalert2";
 import { ItemContext } from "../origin";
 
 const CartEvent = ({ item_pack }) => {
-  const [item, event, setEvent] = item_pack;
-  console.log(event);
+  const [item, data] = item_pack;
   const [get_item, set_get_item] = useContext(ItemContext);
   const handleDelete = async (id) => {
-    console.log(id);
+    // console.log(id);
     const isConfirmed = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -39,33 +38,26 @@ const CartEvent = ({ item_pack }) => {
       // console.log(res1);
       set_get_item({ item: res1 });
 
-      // let newEvents= []
-      event.map((item) => {
+      let updatedTicket;
+      data.map((item) => {
         if (item._id == id) {
-          item.capacity = (parseInt(item["capacity"]) + 1).toString();
+          const val = item["capacity"];
+          updatedTicket =
+            val == "Not Available" ? 1 : (parseInt(val) + 1).toString();
         }
       });
-      console.log("after: ", event);
-      setEvent(event);
-      // let updatedTicket = (parseInt(item["capacity"]) + 1).toString();
-      // if (updatedTicket == "0") updatedTicket = "Not Available";
+
+      const updateEvent = await fetch(
+        `http://localhost:3000/events/${item._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ updatedTicket }),
+        }
+      );
     }
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     fetch(`http://localhost:5000/coffee/${_id}`, {
-    //       method: "DELETE",
-    //     })
-    //       .then((res) => res.json())
-    //       .then((data) => {
-    //         console.log(data);
-    //         if (data.deletedCount > 0) {
-    //           Swal.fire("Deleted!", "Your Coffee has been deleted.", "success");
-    //           const remaining = coffees.filter((cof) => cof._id !== _id);
-    //           setCoffees(remaining);
-    //         }
-    //       });
-    //   }
-    // });
   };
 
   return (

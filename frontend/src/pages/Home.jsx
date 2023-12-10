@@ -3,11 +3,14 @@ import Banner from "../components/Banner";
 import Events from "../components/Events";
 import ReviewSection from "../components/ReviewSection";
 import Thoughts from "../components/Thoughts";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const EventContext = createContext();
 const Home = () => {
   const [obj, set_obj] = useState(useLoaderData());
+  useEffect(() => {
+    set_obj(obj);
+  }, [obj]);
   return (
     <div>
       <Banner></Banner>
