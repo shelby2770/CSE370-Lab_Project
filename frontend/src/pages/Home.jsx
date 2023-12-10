@@ -3,9 +3,13 @@ import Banner from "../components/Banner";
 import Events from "../components/Events";
 import ReviewSection from "../components/ReviewSection";
 import Thoughts from "../components/Thoughts";
+import { createContext, useState } from "react";
 
+export const EventContext = createContext();
 const Home = () => {
-  const obj = useLoaderData();
+  const [obj, set_obj] = useState(useLoaderData());
+  // const obj = useLoaderData();
+  console.log(obj);
   return (
     <div>
       <Banner></Banner>
@@ -13,7 +17,9 @@ const Home = () => {
         Our<span className="text-secondary_clr"> Events</span>
       </h2>
       <div className="px-10">
-        <Events obj={obj}></Events>
+        <EventContext.Provider value={[obj, set_obj]}>
+          <Events></Events>
+        </EventContext.Provider>
       </div>
       <h2 className="text-4xl text-center font-semibold my-4">
         Review<span className="text-secondary_clr"> Section</span>
@@ -22,7 +28,7 @@ const Home = () => {
         <ReviewSection></ReviewSection>
       </div>
       <h2 className="text-4xl text-center font-semibold my-4">
-      Share Your<span className="text-secondary_clr"> Thoughts</span>
+        Share Your<span className="text-secondary_clr"> Thoughts</span>
       </h2>
       <div>
         <Thoughts></Thoughts>

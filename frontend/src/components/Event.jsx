@@ -3,36 +3,72 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import swal from "sweetalert";
+import { get_item } from "./NavBar";
+import { useContext } from "react";
+import { EventContext } from "../pages/Home";
 
 const Event = ({ item }) => {
-  // console.log(item)
-  const handleBook = () => {
-    swal({
-      title: "Are you sure?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willPurchase) => {
+  const [obj, set_obj] = useContext(EventContext);
+  const handleBook = async () => {
+    const obj = await get_item;
+    console.log("from event: ", get_item);
+    if (item["capacity"] == "Not Available") {
+      swal("Sorry!", "No tickets remaining right now", "error");
+    } else {
+      const willPurchase = await swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      });
+
       if (willPurchase) {
+        let updatedEvent = await [...obj["cart"], item];
+        let updatedTicket = (parseInt(item["capacity"]) - 1).toString();
+        if (updatedTicket == "0") updatedTicket = "Not Available";
+        const updateUser = await fetch(
+          `http://localhost:3000/users/${obj._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ updatedEvent }),
+          }
+        );
+
+        const updateEvent = await fetch(
+          `http://localhost:3000/events/${item._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ updatedTicket }),
+          }
+        );
+
+        const getUpdateEvents = await fetch("http://localhost:3000/events");
+        const getUpdateEvents_json= await getUpdateEvents.json()
+        console.log(getUpdateEvents_json)
+        const res = await set_obj(getUpdateEvents_json);
         swal("Event has been added to your cart!", {
           icon: "success",
         });
-        
       } else {
         swal("Purchase cancelled!");
       }
-    });
+    }
   };
 
   return (
     <div>
-      {/* <Link to={`/${item.name}`}> */}
       <div className="card w-90 bg-base-100 shadow-xl border-[1px]">
         <figure>
           <img className="w-full h-[200px]" src={item.picture} alt="event" />
         </figure>
         <div className="p-4">
-          <h2 className="card-title mb-2">{item.name}</h2>
+          <h2 className="card-title mb-2">{item.title}</h2>
           <p className="text-xs md:text-xm text-neutral-600 mb-4 h-20">
             {item.description}
           </p>
@@ -46,7 +82,11 @@ const Event = ({ item }) => {
           </div>
           <p>
             <span className="font-semibold">Ticket remaining: </span>
-            {item.capacity}
+            {item.capacity != "Not Available" ? (
+              item.capacity
+            ) : (
+              <span className="text-secondary_clr">{item.capacity}</span>
+            )}
           </p>
           <p>
             <span className="font-semibold">Price: </span>৳{item.price}
@@ -60,7 +100,6 @@ const Event = ({ item }) => {
           Book Now
         </button>
       </div>
-      {/* </Link> */}
     </div>
   );
 };

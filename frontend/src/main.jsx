@@ -30,7 +30,6 @@ const router = createBrowserRouter([
       {
         path: "/mycart",
         element: <MyCart></MyCart>,
-        loader: () => fetch("fake_data.json"),
       },
       {
         path: "/register",

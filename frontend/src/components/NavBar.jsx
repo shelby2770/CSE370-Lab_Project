@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import {  useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AssetContext } from "../origin";
 import { AuthContext } from "../AuthProvider";
 import swal from "sweetalert";
@@ -8,10 +8,10 @@ import { BsFillMoonFill } from "react-icons/bs";
 
 export let get_name = null;
 export let get_image = null;
+export let get_item = null;
 const NavBar = ({ data }) => {
   const [bg_clr, set_bg_clr] = useContext(AssetContext);
   const { user, log_out } = useContext(AuthContext);
-
 
   if (user) {
     data.map((item) => {
@@ -19,6 +19,7 @@ const NavBar = ({ data }) => {
         //Email of a person is always unique
         get_name = item.name;
         get_image = item.image;
+        get_item = item;
       }
     });
   }

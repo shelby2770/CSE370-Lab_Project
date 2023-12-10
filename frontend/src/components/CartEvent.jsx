@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 const CartEvent = ({ item }) => {
   console.log(item);
-  //   const { id, title, picture, description, location, quantity, photo } = coffee;
-
   const handleDelete = (_id) => {
     console.log(_id);
     // Swal.fire({
@@ -36,14 +34,13 @@ const CartEvent = ({ item }) => {
   };
 
   return (
-    <div>
-      <div className="bg-gray-50 grid grid-cols-6 justify-between p-5 rounded-xl gap-14 h-full">
+      <div className="bg-gray-50 grid grid-cols-6 justify-between p-5 rounded-xl gap-14 h-full shadow-inner">
         <div className="col-span-2">
           <img className="h-full" src={item.picture} alt="" />
         </div>
         <div className="flex items-center col-span-3">
           <div>
-            <h2 className="text-2xl font-bold mb-3">{item.name}</h2>
+            <h2 className="text-2xl font-bold mb-3">{item.title}</h2>
             <div className="flex flex-row items-center gap-1">
               <MdOutlineDateRange /> {item.date}
             </div>
@@ -111,7 +108,6 @@ const CartEvent = ({ item }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

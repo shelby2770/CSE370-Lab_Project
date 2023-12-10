@@ -33,6 +33,10 @@ const userDetailsSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  cart: {
+    type: Array,
+    default: [],
+  },
 });
 const User = mongoose.model("User", userDetailsSchema);
 
@@ -147,6 +151,65 @@ app.post("/reviews", async (req, res) => {
     const result = await newReview.save();
     console.log("got review");
     res.send(result);
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
+app.put("/users/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateUser = await User.updateOne(
+      { _id: id },
+      {
+        $set: {
+          cart: req.body.updatedEvent,
+        },
+      }
+    );
+    res.send("got it");
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
+app.put("/events/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateUser = await Event.updateOne(
+      { _id: id },
+      {
+        $set: {
+          capacity: req.body.updatedTicket,
+        },
+      }
+    );
+    res.send("got event");
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
+//This is for admins
+app.put("/events_admin/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(req.body);
+    const updateUser = await Event.updateOne(
+      { _id: id },
+      {
+        $set: {
+          title: req.body.title,
+          picture: req.body.picture,
+          description: req.body.description,
+          location: req.body.location,
+          date: req.body.date,
+          capacity: req.body.capacity,
+          price: req.body.price,
+        },
+      }
+    );
+    res.send("got event");
   } catch (error) {
     console.error("Error: ", error.message);
   }
