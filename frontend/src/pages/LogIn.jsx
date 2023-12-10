@@ -21,22 +21,24 @@ const Login = () => {
       });
 
       if (!check_duplicate) {
-        console.log("not duplicate");
-        const res2 = await fetch("http://localhost:3000/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(obj),
-        });
+        try {
+          const res2 = await fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(obj),
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
-      swal("Done", "Logged in successfully!", "success");
 
+      swal("Done", "Logged in successfully!", "success");
       const timeout = (delay) => {
         return new Promise((res) => setTimeout(res, delay));
       };
       await timeout(2000);
-
       window.location.href = "/";
     } catch (error) {
       console.log(error);

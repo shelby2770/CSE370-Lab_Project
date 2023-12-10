@@ -8,8 +8,6 @@ import { createContext, useState } from "react";
 export const EventContext = createContext();
 const Home = () => {
   const [obj, set_obj] = useState(useLoaderData());
-  // const obj = useLoaderData();
-  console.log(obj);
   return (
     <div>
       <Banner></Banner>

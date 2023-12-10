@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BsFillCartCheckFill } from "react-icons/bs";
@@ -10,9 +9,21 @@ import { EventContext } from "../pages/Home";
 const Event = ({ item }) => {
   const [obj, set_obj] = useContext(EventContext);
   const handleBook = async () => {
-    const obj = await get_item;
-    console.log("from event: ", get_item);
-    if (item["capacity"] == "Not Available") {
+    const user_cart = await get_item;
+    const isExist = user_cart
+      ? get_item["cart"].some((i) => i._id === item._id)
+      : null;
+    if (user_cart == null) {
+      console.log("hello");
+      swal("Attention!", "Please login first to access this page", "error");
+      const timeout = (delay) => {
+        return new Promise((res) => setTimeout(res, delay));
+      };
+      await timeout(1000);
+      window.location.href = "/login";
+    } else if (isExist) {
+      swal("Sorry!", "You have already booked this event", "error");
+    } else if (item["capacity"] == "Not Available") {
       swal("Sorry!", "No tickets remaining right now", "error");
     } else {
       const willPurchase = await swal({
@@ -23,11 +34,11 @@ const Event = ({ item }) => {
       });
 
       if (willPurchase) {
-        let updatedEvent = await [...obj["cart"], item];
+        let updatedEvent = await [...user_cart["cart"], item];
         let updatedTicket = (parseInt(item["capacity"]) - 1).toString();
         if (updatedTicket == "0") updatedTicket = "Not Available";
         const updateUser = await fetch(
-          `http://localhost:3000/users/${obj._id}`,
+          `http://localhost:3000/users/${user_cart._id}`,
           {
             method: "PUT",
             headers: {
@@ -49,8 +60,8 @@ const Event = ({ item }) => {
         );
 
         const getUpdateEvents = await fetch("http://localhost:3000/events");
-        const getUpdateEvents_json= await getUpdateEvents.json()
-        console.log(getUpdateEvents_json)
+        const getUpdateEvents_json = await getUpdateEvents.json();
+        console.log(getUpdateEvents_json);
         const res = await set_obj(getUpdateEvents_json);
         swal("Event has been added to your cart!", {
           icon: "success",

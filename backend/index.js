@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 
 //middlewares
@@ -98,6 +98,17 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.get("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      _id: req.params.id,
+    });
+    res.send(user);
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
 app.get("/events", async (req, res) => {
   try {
     const events = await Event.find();
@@ -120,6 +131,7 @@ app.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const result = await newUser.save();
+    res.send("saved new user")
   } catch (error) {
     console.error("Error: ", error.message);
   }
