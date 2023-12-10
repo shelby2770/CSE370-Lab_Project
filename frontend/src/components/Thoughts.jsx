@@ -43,12 +43,12 @@ const Thoughts = () => {
             cols=""
             rows="10"
             maxLength={250}
-            className="w-[60vw]
+            className="w-[90vw]
           border p-2 mx-8 rounded-md"
           ></textarea>
         </div>
         <div className="mb-4">
-          <button className="btn btn-active bg-primary_clr">Send</button>
+          <button className="btn btn-active btn-outline btn-primary">Send</button>
         </div>
       </form>
     </div>

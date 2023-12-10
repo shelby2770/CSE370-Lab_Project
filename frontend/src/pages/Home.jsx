@@ -18,7 +18,7 @@ const Home = () => {
       <h2 className="text-4xl text-center font-semibold my-4">
         Review<span className="text-secondary_clr"> Section</span>
       </h2>
-      <div>
+      <div className="px-10">
         <ReviewSection></ReviewSection>
       </div>
       <h2 className="text-4xl text-center font-semibold my-4">

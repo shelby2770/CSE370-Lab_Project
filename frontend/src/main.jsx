@@ -10,7 +10,6 @@ import MyCart from "./pages/MyCart";
 import Register from "./pages/Register";
 import AuthProvider from "./AuthProvider";
 import LogIn from "./pages/LogIn";
-import ProductContainer from "./components/ProductContainer";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +21,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("fake_data.json"),
+        loader: () => fetch("http://localhost:3000/events"),
       },
       {
         path: "/addproduct",
@@ -31,6 +30,7 @@ const router = createBrowserRouter([
       {
         path: "/mycart",
         element: <MyCart></MyCart>,
+        loader: () => fetch("fake_data.json"),
       },
       {
         path: "/register",
@@ -40,11 +40,6 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LogIn></LogIn>,
         loader: () => fetch("http://localhost:3000/users"),
-      },
-      {
-        path: "/:id",
-        element: <ProductContainer></ProductContainer>,
-        loader: () => fetch("/fake_data_service.json"),
       },
     ],
   },

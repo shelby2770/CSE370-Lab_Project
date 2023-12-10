@@ -1,32 +1,62 @@
 [
   {
     "id": 1,
-    "name": "Apple",
-    "image": "https://i.ibb.co/2K1xJWf/apple.jpg"
+    "title": "Apple",
+    "picture": "https://i.ibb.co/2K1xJWf/apple.jpg",
+    "description": "Join us for an unforgettable night under the stars as we screen the latest blockbuster movies. Grab your popcorn and enjoy a cinematic experience like never before!",
+    "location": "Central Park, New York",
+    "date": "December 15, 2023",
+    "capacity": "100",
+    "price": "20"
   },
   {
     "id": 2,
-    "name": "Samsung",
-    "image": "https://i.ibb.co/jZj7z96/samsung.png"
+    "title": "Samsung",
+    "picture": "https://i.ibb.co/jZj7z96/samsung.png",
+    "description": "Samsung offers cutting-edge technology and innovative products to enhance your daily life. Discover a world of possibilities with Samsung.",
+    "location": "Seoul, South Korea",
+    "date": "March 10, 2024",
+    "capacity": "50",
+    "price": "Free"
   },
   {
     "id": 3,
-    "name": "Sony",
-    "image": "https://i.ibb.co/TkBWVT1/sony.webp"
+    "title": "Sony",
+    "picture": "https://i.ibb.co/TkBWVT1/sony.webp",
+    "description": "Experience entertainment like never before with Sony's high-quality audio and visual products. Immerse yourself in stunning technology.",
+    "location": "Tokyo, Japan",
+    "date": "April 5, 2024",
+    "capacity": "80",
+    "price": "30"
   },
   {
     "id": 4,
-    "name": "Google",
-    "image": "https://i.ibb.co/fFrTTCp/google.jpg"
+    "title": "Google",
+    "picture": "https://i.ibb.co/fFrTTCp/google.jpg",
+    "description": "Explore the limitless potential of information and innovation with Google's groundbreaking technologies and services.",
+    "location": "Silicon Valley, California",
+    "date": "February 20, 2024",
+    "capacity": "120",
+    "price": "15"
   },
   {
     "id": 5,
-    "name": "Intel",
-    "image": "https://i.ibb.co/yP6qVRP/intel.jpg"
+    "title": "Intel",
+    "picture": "https://i.ibb.co/yP6qVRP/intel.jpg",
+    "description": "Intel powers the world's computing devices with cutting-edge processors and technology, driving the future of innovation.",
+    "location": "Austin, Texas",
+    "date": "May 1, 2024",
+    "capacity": "70",
+    "price": "25"
   },
   {
     "id": 6,
-    "name": "Blackberry",
-    "image": "https://i.ibb.co/jR0QZQX/blackberry.jpg"
+    "title": "Blackberry",
+    "picture": "https://i.ibb.co/jR0QZQX/blackberry.jpg",
+    "description": "Blackberry offers secure and efficient communication solutions for professionals, ensuring privacy and productivity.",
+    "location": "Waterloo, Canada",
+    "date": "June 15, 2024",
+    "capacity": "40",
+    "price": "10"
   }
 ]
