@@ -4,12 +4,11 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdDelete, MdOutlineDateRange } from "react-icons/md";
 import Swal from "sweetalert2";
 import { ItemContext } from "../origin";
-import { EventContext } from "../pages/Home";
 
-const CartEvent = ({ item }) => {
-  const [obj, set_obj] = useContext(EventContext);
+const CartEvent = ({ item_pack }) => {
+  const [item, event, setEvent] = item_pack;
+  console.log(event);
   const [get_item, set_get_item] = useContext(ItemContext);
-    console.log(obj);
   const handleDelete = async (id) => {
     console.log(id);
     const isConfirmed = await Swal.fire({
@@ -40,6 +39,16 @@ const CartEvent = ({ item }) => {
       // console.log(res1);
       set_get_item({ item: res1 });
 
+      // let newEvents= []
+      event.map((item) => {
+        if (item._id == id) {
+          item.capacity = (parseInt(item["capacity"]) + 1).toString();
+        }
+      });
+      console.log("after: ", event);
+      setEvent(event);
+      // let updatedTicket = (parseInt(item["capacity"]) + 1).toString();
+      // if (updatedTicket == "0") updatedTicket = "Not Available";
     }
     // }).then((result) => {
     //   if (result.isConfirmed) {

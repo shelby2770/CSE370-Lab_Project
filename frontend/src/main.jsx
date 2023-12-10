@@ -30,6 +30,7 @@ const router = createBrowserRouter([
       {
         path: "/mycart",
         element: <MyCart></MyCart>,
+        loader: () => fetch("http://localhost:3000/events"),
       },
       {
         path: "/register",
