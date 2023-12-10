@@ -1,28 +1,40 @@
 import { NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
-import { AssetContext } from "../origin";
+import {
+  AssetContext,
+  ImageContext,
+  ItemContext,
+  NameContext,
+} from "../origin";
 import { AuthContext } from "../AuthProvider";
 import swal from "sweetalert";
 import { BsFillSunFill } from "react-icons/bs";
 import { BsFillMoonFill } from "react-icons/bs";
 
-export let get_name = null;
-export let get_image = null;
-export let get_item = null;
+// export let get_name = null;
+// export let get_image = null;
+// export let get_item = null;
+// export const NameContext = createContext();
+// export const ImageContext = createContext();
+// export const ItemContext = createContext();
 const NavBar = ({ data }) => {
   const [bg_clr, set_bg_clr] = useContext(AssetContext);
+  const [get_name, set_get_name] = useContext(NameContext);
+  const [get_image, set_get_image] = useContext(ImageContext);
+  const [get_item, set_get_item] = useContext(ItemContext);
   const { user, log_out } = useContext(AuthContext);
+  // console.log("nav: ", get_item["item"]["cart"]);
 
-  if (user) {
-    data.map((item) => {
-      if (item.email == user.email) {
-        //Email of a person is always unique
-        get_name = item.name;
-        get_image = item.image;
-        get_item = item;
-      }
-    });
-  }
+  // if (user) {
+  //   data.map((item) => {
+  //     if (item.email == user.email) {
+  //       //Email of a person is always unique
+  //       get_name = item.name;
+  //       get_image = item.image;
+  //       get_item = item;
+  //     }
+  //   });
+  // }
   const handleLogOut = () => {
     log_out().then().catch();
   };

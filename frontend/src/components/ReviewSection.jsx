@@ -16,7 +16,7 @@ const ReviewSection = () => {
       spaceBetween={20}
       slidesPerView={3}
       onSlideChange={() => console.log("slide change")}
-      onSwiper={(swiper) => console.log(swiper)}
+      // onSwiper={(swiper) => console.log(swiper)}
     >
       {reviews.map((item) => (
         <SwiperSlide key={item.id}>

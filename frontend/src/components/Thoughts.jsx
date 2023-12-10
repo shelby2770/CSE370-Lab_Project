@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import swal from "sweetalert";
-import { get_image, get_name } from "./NavBar";
+import { ImageContext, NameContext } from "../origin";
+// import { get_image, get_name } from "./NavBar";
 
 const Thoughts = () => {
+  const [get_name, set_get_name] = useContext(NameContext);
+  const [get_image, set_get_image] = useContext(ImageContext);
   const { user } = useContext(AuthContext);
   const handleReview = async (e) => {
     e.preventDefault();
@@ -48,7 +51,9 @@ const Thoughts = () => {
           ></textarea>
         </div>
         <div className="mb-4">
-          <button className="btn btn-active btn-outline btn-primary">Send</button>
+          <button className="btn btn-active btn-outline btn-primary">
+            Send
+          </button>
         </div>
       </form>
     </div>

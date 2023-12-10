@@ -2,19 +2,20 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import swal from "sweetalert";
-import { get_item } from "./NavBar";
 import { useContext } from "react";
 import { EventContext } from "../pages/Home";
+import { ItemContext } from "../origin";
 
 const Event = ({ item }) => {
   const [obj, set_obj] = useContext(EventContext);
+  const [get_item, set_get_item] = useContext(ItemContext);
   const handleBook = async () => {
-    const user_cart = await get_item;
-    const isExist = user_cart
-      ? get_item["cart"].some((i) => i._id === item._id)
+    const user_cart = get_item["item"];
+    // console.log(user_cart["cart"]);
+    const isExist = user_cart["cart"].length
+      ? get_item["item"]["cart"].some((i) => i._id === item._id)
       : null;
-    if (user_cart == null) {
-      console.log("hello");
+    if (!user_cart) {
       swal("Attention!", "Please login first to access this page", "error");
       const timeout = (delay) => {
         return new Promise((res) => setTimeout(res, delay));
@@ -34,7 +35,8 @@ const Event = ({ item }) => {
       });
 
       if (willPurchase) {
-        let updatedEvent = await [...user_cart["cart"], item];
+        let updatedEvent = [...user_cart["cart"], item];
+        // console.log(updatedEvent);
         let updatedTicket = (parseInt(item["capacity"]) - 1).toString();
         if (updatedTicket == "0") updatedTicket = "Not Available";
         const updateUser = await fetch(
@@ -47,6 +49,9 @@ const Event = ({ item }) => {
             body: JSON.stringify({ updatedEvent }),
           }
         );
+        const res1 = await updateUser.json();
+        // console.log(res1);
+        set_get_item({ item: res1 });
 
         const updateEvent = await fetch(
           `http://localhost:3000/events/${item._id}`,
@@ -58,10 +63,9 @@ const Event = ({ item }) => {
             body: JSON.stringify({ updatedTicket }),
           }
         );
-
         const getUpdateEvents = await fetch("http://localhost:3000/events");
         const getUpdateEvents_json = await getUpdateEvents.json();
-        console.log(getUpdateEvents_json);
+        // console.log(getUpdateEvents_json);
         const res = await set_obj(getUpdateEvents_json);
         swal("Event has been added to your cart!", {
           icon: "success",
@@ -114,5 +118,4 @@ const Event = ({ item }) => {
     </div>
   );
 };
-
 export default Event;
