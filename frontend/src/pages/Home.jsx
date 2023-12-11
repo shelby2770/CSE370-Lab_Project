@@ -11,6 +11,7 @@ const Home = () => {
   useEffect(() => {
     set_obj(obj);
   }, [obj]);
+
   return (
     <div>
       <Banner></Banner>

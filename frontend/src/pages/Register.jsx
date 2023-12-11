@@ -23,6 +23,8 @@ const Register = () => {
     const image = selectedImage;
     const email = form.email.value;
     const password = form.password.value;
+    const gender = form.gender.value;
+    const contact_no = [form.contact_no.value, form.contact_no2.value];
     const specialChars = /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/;
     if (password.length < 6) {
       swal(
@@ -52,7 +54,7 @@ const Register = () => {
         const res1 = await create_user(email, password);
         res1.user.displayName = name;
         res1.user.photoURL = image;
-        const obj = { name, image, email, password };
+        const obj = { name, image, email, password, gender, contact_no };
 
         const res2 = await fetch("http://localhost:3000/users", {
           method: "POST",
@@ -61,7 +63,7 @@ const Register = () => {
           },
           body: JSON.stringify(obj),
         });
-        // const result = await res2.json();
+        const result = await res2.json();
         // console.log(result);
 
         form.reset();
@@ -107,6 +109,40 @@ const Register = () => {
                 placeholder="Your Last Name"
                 className="input input-bordered"
                 required
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Gender</span>
+              </label>
+              <select className="select-w-full rounded-md border" name="gender">
+                <option>Male</option>
+                <option>Female</option>
+                <option>Others</option>
+              </select>
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Contact No.</span>
+              </label>
+              <input
+                type="number"
+                name="contact_no"
+                placeholder="Phone Number"
+                className="input input-bordered"
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Additional Number</span>
+              </label>
+              <input
+                type="number"
+                name="contact_no2"
+                placeholder="Phone Number"
+                className="input input-bordered"
               />
             </div>
 

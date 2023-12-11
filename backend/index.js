@@ -33,6 +33,9 @@ const userDetailsSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  gender: String,
+  contact_no: Array,
+
   cart: {
     type: Array,
     default: [],
@@ -79,6 +82,10 @@ const reviewsSchema = new mongoose.Schema({
   },
   image: {
     type: String,
+    required: true,
+  },
+  star_rating: {
+    type: Number,
     required: true,
   },
   review: {
@@ -145,7 +152,7 @@ app.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const result = await newUser.save();
-    res.send("saved new user");
+    res.send({ success: "saved new user" });
   } catch (error) {
     console.error("Error: ", error.message);
   }

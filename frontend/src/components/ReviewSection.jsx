@@ -1,16 +1,13 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import { useState } from "react";
 import ReviewGrid from "./ReviewGrid";
+import { useContext, useEffect } from "react";
+import { ReviewContext } from "../origin";
 
 const ReviewSection = () => {
-  const [reviews, setReviews] = useState([]);
-  const req = fetch("http://localhost:3000/reviews")
-    .then((res) => res.json())
-    .then((data) => {
-      if (reviews.length != data.length) setReviews(data);
-    });
+  const [hasReview, setReview] = useContext(ReviewContext);
+
   return (
     <Swiper
       spaceBetween={20}
@@ -18,7 +15,7 @@ const ReviewSection = () => {
       onSlideChange={() => console.log("slide change")}
       // onSwiper={(swiper) => console.log(swiper)}
     >
-      {reviews.map((item) => (
+      {hasReview.map((item) => (
         <SwiperSlide key={item.id}>
           <ReviewGrid key={item.id} item={item}></ReviewGrid>
         </SwiperSlide>

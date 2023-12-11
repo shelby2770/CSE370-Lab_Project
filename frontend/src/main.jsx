@@ -16,12 +16,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <Origin></Origin>,
     loader: async () => {
-      const [get_user, get_admins] = await Promise.all([
+      const [get_user, get_admins, get_reviews] = await Promise.all([
         fetch("http://localhost:3000/users").then((res) => res.json()),
         fetch("http://localhost:3000/admins").then((res) => res.json()),
+        fetch("http://localhost:3000/reviews").then((res) => res.json()),
       ]);
 
-      return { get_user, get_admins };
+      return { get_user, get_admins, get_reviews };
     },
     errorElement: <ShowError></ShowError>,
     children: [

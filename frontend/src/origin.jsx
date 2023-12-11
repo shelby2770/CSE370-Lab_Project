@@ -10,6 +10,7 @@ export const NameContext = createContext();
 export const ImageContext = createContext();
 export const ItemContext = createContext();
 export const AdminContext = createContext();
+export const ReviewContext = createContext();
 const Origin = () => {
   const [bg_clr, set_bg_clr] = useState("bg-neutral-0");
   const [get_name, set_get_name] = useState(null);
@@ -19,6 +20,7 @@ const Origin = () => {
   const { user } = useContext(AuthContext);
   const data = useLoaderData()["get_user"];
   const admins = useLoaderData()["get_admins"];
+  const reviews = useLoaderData()["get_reviews"];
 
   const [isAdmin, setAdmin] = useState(false);
   useEffect(() => {
@@ -32,6 +34,11 @@ const Origin = () => {
       });
     }
   }, [user, isAdmin]);
+
+  const [hasReview, setReview] = useState(reviews);
+  useEffect(() => {
+    setReview(reviews);
+  }, [reviews]);
 
   useEffect(() => {
     if (user) {
@@ -59,9 +66,11 @@ const Origin = () => {
           <ImageContext.Provider value={[get_image, set_get_name]}>
             <ItemContext.Provider value={[get_item, set_get_item]}>
               <AdminContext.Provider value={[isAdmin, setAdmin]}>
-                <NavBar isAdmin={isAdmin}></NavBar>
-                <Outlet></Outlet>
-                <Footer></Footer>
+                <ReviewContext.Provider value={[hasReview, setReview]}>
+                  <NavBar isAdmin={isAdmin}></NavBar>
+                  <Outlet></Outlet>
+                  <Footer></Footer>
+                </ReviewContext.Provider>
               </AdminContext.Provider>
             </ItemContext.Provider>
           </ImageContext.Provider>
