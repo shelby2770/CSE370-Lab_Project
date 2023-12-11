@@ -1,17 +1,22 @@
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import swal from "sweetalert";
-import { ImageContext, NameContext } from "../origin";
+import { AdminContext, ImageContext, NameContext } from "../origin";
 // import { get_image, get_name } from "./NavBar";
 
 const Thoughts = () => {
+  const [isAdmin, setAdmin]= useContext(AdminContext)
   const [get_name, set_get_name] = useContext(NameContext);
   const [get_image, set_get_image] = useContext(ImageContext);
   const { user } = useContext(AuthContext);
+
   const handleReview = async (e) => {
     e.preventDefault();
     const form = e.target;
-    if (user) {
+    if (isAdmin){
+      swal("Attention!", "Admins can't send review", "error");
+    }
+    else if (user) {
       const name = get_name;
       const image = get_image;
       const review = form.review.value;

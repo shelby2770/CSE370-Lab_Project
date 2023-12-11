@@ -254,9 +254,20 @@ app.put("/events_admin/:id", async (req, res) => {
 app.delete("/admins/:id", async (req, res) => {
   try {
     const deleteAdmin = await Admin.deleteOne({ _id: req.params.id });
-    console.log(req.params.id);
+    // console.log(req.params.id);
     // res.send({ success: "Admin deleted successfully" });
     res.send({ deleteAdmin });
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
+app.delete("/events/:id", async (req, res) => {
+  try {
+    const deleteEvent = await Event.deleteOne({ _id: req.params.id });
+    // console.log(req.params.id);
+    // res.send({ success: "Event deleted successfully" });
+    res.send({ deleteEvent });
   } catch (error) {
     console.error("Error: ", error.message);
   }
