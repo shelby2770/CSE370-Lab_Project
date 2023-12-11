@@ -17,40 +17,45 @@ const AddEvent = () => {
       redirecting();
     }
   }, [isAdmin]);
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
-    const Event = form.Event.value;
-    const type = form.type.value;
+    const title = form.name.value;
+    const location = form.location.value;
+    const capacity = form.capacity.value;
     const price = form.price.value;
     const description = form.description.value;
-    const image = form.image.value;
+    const date = form.date.value;
+    const picture = form.image.value;
     if (isNaN(price)) {
       swal("Attention!", "Please input a valid price", "error");
-      form.reset();
+      // form.reset();
+    } else if (isNaN(parseInt(capacity))) {
+      swal("Attention!", "Please input valid seat number", "error");
     } else {
-      ("");
-
-      // create_user(email, password)
-      //   .then((res) => {
-      //     res.user.displayName = name;
-      //     res.user.photoURL = image;
-      //     const obj = { name, image, email, password };
-      //     fetch("http://localhost:3000/users", {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify(obj),
-      //     }).then((res) => res.json);
-      //     // .then((data) => //console.log(data));
-      //     swal("Done", "Account has been created successfully!", "success");
-      //     form.reset();
-      //   })
-      //   .catch((error) => {
-      //     swal("", error.message, "warning");
-      //   });
+      try {
+        const res = await fetch("http://localhost:3000/events", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            picture,
+            description,
+            location,
+            date,
+            capacity,
+            price,
+          }),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      swal("Event has been added!", {
+        icon: "success",
+      });
+      form.reset();
     }
   };
   return (

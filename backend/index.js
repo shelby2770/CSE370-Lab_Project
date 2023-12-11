@@ -155,6 +155,7 @@ app.post("/events", async (req, res) => {
   try {
     const newEvent = new Event(req.body);
     const result = await newEvent.save();
+    res.send({ success: "Event added successfully" });
   } catch (error) {
     console.error("Error: ", error.message);
   }
@@ -245,12 +246,11 @@ app.put("/events_admin/:id", async (req, res) => {
         },
       }
     );
-    res.send({success: "Event edited successfully"});
+    res.send({ success: "Event edited successfully" });
   } catch (error) {
     console.error("Error: ", error.message);
   }
 });
-
 
 // const client = new MongoClient(uri, {
 //   serverApi: {

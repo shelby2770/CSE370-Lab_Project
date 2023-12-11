@@ -33,6 +33,7 @@ const router = createBrowserRouter([
       {
         path: "/addevent",
         element: <AddEvent></AddEvent>,
+        loader: () => fetch("http://localhost:3000/events"),
       },
       {
         path: "/mycart",
