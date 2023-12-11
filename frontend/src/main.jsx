@@ -10,6 +10,7 @@ import MyCart from "./pages/MyCart";
 import Register from "./pages/Register";
 import AuthProvider from "./AuthProvider";
 import LogIn from "./pages/LogIn";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,11 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LogIn></LogIn>,
+        loader: () => fetch("http://localhost:3000/users"),
+      },
+      {
+        path: "payment/success/:tran_id",
+        element: <PaymentSuccess></PaymentSuccess>,
         loader: () => fetch("http://localhost:3000/users"),
       },
     ],
