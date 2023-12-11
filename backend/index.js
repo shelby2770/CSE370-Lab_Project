@@ -227,7 +227,6 @@ app.put("/events/:id", async (req, res) => {
   }
 });
 
-//This is for admins
 app.put("/events_admin/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -252,6 +251,16 @@ app.put("/events_admin/:id", async (req, res) => {
   }
 });
 
+app.delete("/admins/:id", async (req, res) => {
+  try {
+    const deleteAdmin = await Admin.deleteOne({ _id: req.params.id });
+    console.log(req.params.id);
+    // res.send({ success: "Admin deleted successfully" });
+    res.send({ deleteAdmin });
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
 // const client = new MongoClient(uri, {
 //   serverApi: {
 //     version: ServerApiVersion.v1,
