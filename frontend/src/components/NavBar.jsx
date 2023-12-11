@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
+  AdminContext,
   AssetContext,
   ImageContext,
-  ItemContext,
   NameContext,
 } from "../origin";
 import { AuthContext } from "../AuthProvider";
@@ -15,14 +15,15 @@ const NavBar = () => {
   const [bg_clr, set_bg_clr] = useContext(AssetContext);
   const [get_name, set_get_name] = useContext(NameContext);
   const [get_image, set_get_image] = useContext(ImageContext);
-  const [get_item, set_get_item] = useContext(ItemContext);
+  const [isAdmin, setAdmin] = useContext(AdminContext);
   const { user, log_out } = useContext(AuthContext);
-
   const handleLogOut = () => {
     log_out().then().catch();
   };
 
   const [isDarkMode, setDarkMode] = useState(false);
+
+  // console.log(isAdmin);
   const handleSetMode = () => {
     if (bg_clr == "bg-neutral-0") {
       set_bg_clr("bg-neutral-950");
@@ -56,9 +57,9 @@ const NavBar = () => {
             </NavLink>
           </li>
           <li>
-            {user && (
+            {isAdmin && (
               <NavLink
-                to="/addproduct"
+                to="/addevent"
                 className={({ isActive, isPending }) =>
                   isPending
                     ? "pending"
@@ -67,7 +68,21 @@ const NavBar = () => {
                     : ""
                 }
               >
-                Add Product
+                Add Event
+              </NavLink>
+            )}
+            {user && !isAdmin && (
+              <NavLink
+                to="/"
+                onClick={() => {
+                  swal(
+                    "Attention!",
+                    "You are not allowed to access this page",
+                    "error"
+                  );
+                }}
+              >
+                Add Event
               </NavLink>
             )}
             {!user && (
@@ -81,7 +96,7 @@ const NavBar = () => {
                   );
                 }}
               >
-                Add Product
+                Add Event
               </NavLink>
             )}
           </li>

@@ -9,6 +9,7 @@ export const AssetContext = createContext();
 export const NameContext = createContext();
 export const ImageContext = createContext();
 export const ItemContext = createContext();
+export const AdminContext = createContext();
 const Origin = () => {
   const [bg_clr, set_bg_clr] = useState("bg-neutral-0");
   const [get_name, set_get_name] = useState(null);
@@ -17,7 +18,21 @@ const Origin = () => {
   // const { user, log_out } = useContext(AuthContext);
   const { user } = useContext(AuthContext);
   const data = useLoaderData()["get_user"];
-  
+  const admins = useLoaderData()["get_admins"];
+
+  const [isAdmin, setAdmin] = useState(false);
+  useEffect(() => {
+    if (user) {
+      data.map((item) => {
+        if (item.email === user.email) {
+          admins.map((item2) => {
+            if (item._id == item2.id) setAdmin(true);
+          });
+        }
+      });
+    }
+  }, [user, isAdmin]);
+
   useEffect(() => {
     if (user) {
       const userData = data.find((item) => item.email === user.email);
@@ -33,6 +48,8 @@ const Origin = () => {
         });
         // console.log(data);
       }
+    } else {
+      setAdmin(false);
     }
   }, [user, data]);
   return (
@@ -41,9 +58,11 @@ const Origin = () => {
         <NameContext.Provider value={[get_name, set_get_name]}>
           <ImageContext.Provider value={[get_image, set_get_name]}>
             <ItemContext.Provider value={[get_item, set_get_item]}>
-              <NavBar></NavBar>
-              <Outlet></Outlet>
-              <Footer></Footer>
+              <AdminContext.Provider value={[isAdmin, setAdmin]}>
+                <NavBar isAdmin={isAdmin}></NavBar>
+                <Outlet></Outlet>
+                <Footer></Footer>
+              </AdminContext.Provider>
             </ItemContext.Provider>
           </ImageContext.Provider>
         </NameContext.Provider>

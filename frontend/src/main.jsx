@@ -5,7 +5,7 @@ import { createBrowserRouter, json, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Origin from "./origin";
 import ShowError from "./ShowError";
-import AddProduct from "./pages/AddProduct";
+import AddEvent from "./pages/AddEvent";
 import MyCart from "./pages/MyCart";
 import Register from "./pages/Register";
 import AuthProvider from "./AuthProvider";
@@ -16,12 +16,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <Origin></Origin>,
     loader: async () => {
-      const [get_user, get_event] = await Promise.all([
+      const [get_user, get_admins] = await Promise.all([
         fetch("http://localhost:3000/users").then((res) => res.json()),
-        fetch("http://localhost:3000/events").then((res) => res.json()),
+        fetch("http://localhost:3000/admins").then((res) => res.json()),
       ]);
 
-      return { get_user, get_event };
+      return { get_user, get_admins };
     },
     errorElement: <ShowError></ShowError>,
     children: [
@@ -31,8 +31,8 @@ const router = createBrowserRouter([
         loader: () => fetch("http://localhost:3000/events"),
       },
       {
-        path: "/addproduct",
-        element: <AddProduct></AddProduct>,
+        path: "/addevent",
+        element: <AddEvent></AddEvent>,
       },
       {
         path: "/mycart",

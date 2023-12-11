@@ -1,8 +1,22 @@
 import swal from "sweetalert";
-import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { AdminContext } from "../origin";
 
-const AddProduct = () => {
-  
+const AddEvent = () => {
+  const [isAdmin, setAdmin] = useContext(AdminContext);
+  useEffect(() => {
+    if (!isAdmin) {
+      const redirecting = async () => {
+        swal("Attention!", "Admin logged out", "error");
+        const timeout = (delay) => {
+          return new Promise((res) => setTimeout(res, delay));
+        };
+        await timeout(1500);
+        window.location.href = "/Login";
+      };
+      redirecting();
+    }
+  }, [isAdmin]);
   const handleAdd = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -12,16 +26,12 @@ const AddProduct = () => {
     const price = form.price.value;
     const description = form.description.value;
     const image = form.image.value;
-    const rating = form.rating.value;
     if (isNaN(price)) {
-      swal(
-        "Attention!",
-        "Please input a valid price",
-        "error"
-      );
+      swal("Attention!", "Please input a valid price", "error");
       form.reset();
     } else {
       ("");
+
       // create_user(email, password)
       //   .then((res) => {
       //     res.user.displayName = name;
@@ -48,7 +58,7 @@ const AddProduct = () => {
       <div className="hero-content flex-col">
         <div className="text-center lg:text-left">
           <h1 className="text-3xl font-bold">
-            Add Your <span className="text-secondary_clr">Product!!</span>
+            Add Your <span className="text-secondary_clr">Event!!</span>
           </h1>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -60,32 +70,31 @@ const AddProduct = () => {
               <input
                 type="text"
                 name="name"
-                placeholder="Product Name"
+                placeholder="Event Name"
                 className="input input-bordered"
                 required
               />
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Event Name</span>
-              </label>
-              <select className="select-w-full rounded-md border" name="Event">
-                <option>Apple</option>
-                <option>Samsung</option>
-                <option>Sony</option>
-                <option>Google</option>
-                <option>Intel</option>
-                <option>Blackberry</option>
-              </select>
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Type</span>
+                <span className="label-text">Location</span>
               </label>
               <input
                 type="text"
-                name="type"
-                placeholder="Type"
+                name="location"
+                placeholder="Location"
+                className="input input-bordered"
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Total Seats</span>
+              </label>
+              <input
+                type="text"
+                name="capacity"
+                placeholder="Capacity"
                 className="input input-bordered"
                 required
               />
@@ -114,6 +123,18 @@ const AddProduct = () => {
                 required
               />
             </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Date</span>
+              </label>
+              <input
+                type="text"
+                name="date"
+                placeholder="DD/MM/YY"
+                className="input input-bordered"
+                required
+              />
+            </div>
 
             <div className="form-control">
               <label className="label">
@@ -127,21 +148,10 @@ const AddProduct = () => {
                 required
               />
             </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Rating</span>
-              </label>
-              <select className="select-w-full rounded-md border" name="rating">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
+
             <div className="form-control mt-6">
               <button className="btn btn-active bg-primary_clr">
-                Add Product
+                Add Event
               </button>
             </div>
           </form>
@@ -151,4 +161,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AddEvent;

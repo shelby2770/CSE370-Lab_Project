@@ -88,6 +88,11 @@ const reviewsSchema = new mongoose.Schema({
 });
 const Review = mongoose.model("Review", reviewsSchema);
 
+const adminSchema = new mongoose.Schema({
+  id: String,
+});
+const Admin = mongoose.model("Admin", adminSchema);
+
 //CRUD operations
 app.get("/users", async (req, res) => {
   try {
@@ -127,11 +132,20 @@ app.get("/reviews", async (req, res) => {
   }
 });
 
+app.get("/admins", async (req, res) => {
+  try {
+    const admins = await Admin.find();
+    res.send(admins);
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
 app.post("/users", async (req, res) => {
   try {
     const newUser = new User(req.body);
     const result = await newUser.save();
-    res.send("saved new user")
+    res.send("saved new user");
   } catch (error) {
     console.error("Error: ", error.message);
   }
@@ -159,10 +173,18 @@ app.post("/events_many", async (req, res) => {
 app.post("/reviews", async (req, res) => {
   try {
     const newReview = new Review(req.body);
-    console.log(newReview);
     const result = await newReview.save();
-    console.log("got review");
-    res.send(result);
+    res.send("Got your review");
+  } catch (error) {
+    console.error("Error: ", error.message);
+  }
+});
+
+app.post("/admins", async (req, res) => {
+  try {
+    const newAdmin = new Admin(req.body);
+    const result = await newAdmin.save();
+    res.send({ success: "New Admin Added" });
   } catch (error) {
     console.error("Error: ", error.message);
   }
@@ -171,15 +193,17 @@ app.post("/reviews", async (req, res) => {
 app.put("/users/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const updateUser = await User.updateOne(
+    const updateUser = await User.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
           cart: req.body.updatedEvent,
         },
-      }
+      },
+      { new: true }
     );
-    res.send("got it");
+    // console.log(updateUser);
+    res.send(updateUser);
   } catch (error) {
     console.error("Error: ", error.message);
   }
@@ -206,7 +230,7 @@ app.put("/events/:id", async (req, res) => {
 app.put("/events_admin/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(req.body);
+    // console.log(req.body);
     const updateUser = await Event.updateOne(
       { _id: id },
       {
@@ -221,11 +245,12 @@ app.put("/events_admin/:id", async (req, res) => {
         },
       }
     );
-    res.send("got event");
+    res.send({success: "Event edited successfully"});
   } catch (error) {
     console.error("Error: ", error.message);
   }
 });
+
 
 // const client = new MongoClient(uri, {
 //   serverApi: {
