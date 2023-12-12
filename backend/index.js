@@ -138,7 +138,7 @@ app.post("/order", async (req, res) => {
   const data = {
     total_amount: req.body.total_amount,
     currency: "BDT",
-    tran_id: tran_id, // use unique tran_id for each api call
+    tran_id: tran_id,
     success_url: `http://localhost:${port}/payment/success/${tran_id}`,
     fail_url: "http://localhost:3000/fail",
     cancel_url: "http://localhost:3000/cancel",
@@ -165,6 +165,8 @@ app.post("/order", async (req, res) => {
     ship_postcode: 1000,
     ship_country: "Bangladesh",
   };
+  console.log(data);
+  const deleteOrder = await OrderCollection.deleteOne({ transactionId: tran_id });
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
   sslcz.init(data).then((apiResponse) => {
     // Redirect the user to payment gateway
@@ -249,6 +251,8 @@ app.get("/orders/:id", async (req, res) => {
     const Order = await OrderCollection.findOne({
       transactionId: req.params.id,
     });
+    // const deleteOrder = await Event.deleteOne({ transactionId: req.params.id });
+
     res.send({ Order });
   } catch (error) {
     console.error("Error: ", error.message);
@@ -406,62 +410,6 @@ app.delete("/events/:id", async (req, res) => {
     console.error("Error: ", error.message);
   }
 });
-// const client = new MongoClient(uri, {
-//   serverApi: {
-//     version: ServerApiVersion.v1,
-//     strict: true,
-//     deprecationErrors: true,
-//   },
-// });
-
-// async function run() {
-//   try {
-//     await client.connect();
-//     await client.db("admin").command({ ping: 1 });
-//     console.log(
-//       "Pinged your deployment. You successfully connected to MongoDB!"
-//     );
-//     const userCollection = client.db("slytherUsers").collection("users");
-//     const reviewCollection = client.db("slytherUsers").collection("reviews");
-//     const productCollection = client.db("slytherUsers").collection("products");
-
-//     app.post("/users", async (req, res) => {
-//       const user = req.body;
-//       const result = await userCollection.insertOne(user);
-//       res.send(result);
-//     });
-
-//     app.get("/users", async (req, res) => {
-//       const result = await userCollection.find().toArray();
-//       res.send(result);
-//     });
-
-//     app.post("/reviews", async (req, res) => {
-//       const review = req.body;
-//       const result = await reviewCollection.insertOne(review);
-//       res.send(result);
-//     });
-
-//     app.get("/reviews", async (req, res) => {
-//       const result = await reviewCollection.find().toArray();
-//       res.send(result);
-//     });
-
-//     app.post("/products", async (req, res) => {
-//       const review = req.body;
-//       const result = await productCollection.insertOne(review);
-//       res.send(result);
-//     });
-
-//     app.get("/products", async (req, res) => {
-//       const result = await productCollection.find().toArray();
-//       res.send(result);
-//     });
-//   } finally {
-//     // await client.close();
-//   }
-// }
-// run().catch(console.dir);
 
 app.get("/", (req, res) => {
   res.send("Everything is ok...");

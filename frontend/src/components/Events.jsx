@@ -11,12 +11,12 @@ const Events = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(inputValue);
-    const updateEvent = await fetch("http://localhost:3000/events");
     const getUpdateEvents = await fetch("http://localhost:3000/events");
     const getUpdateEvents_json = await getUpdateEvents.json();
     // console.log(getUpdateEvents_json);
     const res = await set_obj(getUpdateEvents_json);
-    const newObj = obj.filter((item) =>
+
+    const newObj = getUpdateEvents_json.filter((item) =>
       item.title.toLowerCase().includes(inputValue.toLocaleLowerCase())
     );
     set_obj(newObj);

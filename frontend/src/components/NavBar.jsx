@@ -130,6 +130,36 @@ const NavBar = () => {
               </NavLink>
             )}
           </li>
+          <li>
+            {user && (
+              <NavLink
+                to="/purchase_events"
+                className={({ isActive, isPending }) =>
+                  isPending
+                    ? "pending"
+                    : isActive
+                    ? "text-secondary_clr font-semibold underline"
+                    : ""
+                }
+              >
+                Purchase History
+              </NavLink>
+            )}
+            {!user && (
+              <NavLink
+                to="/login"
+                onClick={() => {
+                  swal(
+                    "Attention!",
+                    "Please login first to access this page",
+                    "error"
+                  );
+                }}
+              >
+                Purchase History
+              </NavLink>
+            )}
+          </li>
         </ul>
       </div>
       <div className="flex flex-col md:flex-row order-1 md:order-2">

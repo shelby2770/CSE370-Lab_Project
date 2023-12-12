@@ -3,30 +3,35 @@ import { Link, useLoaderData, useParams } from "react-router-dom";
 const PaymentSuccess = () => {
   const id = useParams();
   const user_data = useLoaderData();
-  console.log(id);
+    console.log(id);
   const get_order = async () => {
     const res = await fetch(`http://localhost:3000/orders/${id["tran_id"]}`);
     const res_json = await res.json();
     // console.log(res_json);
-    user_data.map((item) => {
+
+    // const ansyncFunc= async () => {
+    user_data.map(async (item) => {
       if (item._id == res_json["Order"]["user_id"]) {
+        console.log(res_json["Order"]["user_id"]);
         item["cart"] = [];
-        item["purchase_info"] = [
-          res_json["Order"]["event_list"],
-          res_json["Order"]["transactionId"],
+        item["purchase_info"] =  [
+          ...item["purchase_info"],
+          [res_json["Order"]["event_list"], res_json["Order"]["transactionId"]],
         ];
-        const updatePurchase = item["purchase_info"];
-        fetch(`http://localhost:3000/users2/${item._id}`, {
+        const updatePurchase = await item["purchase_info"];
+        console.log(updatePurchase)
+        const res = await fetch(`http://localhost:3000/users2/${item._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ updatePurchase }),
         });
-        //   .then((res) => res.json())
-        //   .then((data) => console.log(data));
+        const res_json2 = await res.json();
+        console.log(res_json2);
       }
     });
+    // }
   };
   get_order();
 

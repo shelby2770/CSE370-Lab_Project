@@ -11,18 +11,28 @@ export const ImageContext = createContext();
 export const ItemContext = createContext();
 export const AdminContext = createContext();
 export const ReviewContext = createContext();
+export const UserContext = createContext();
 const Origin = () => {
   const [bg_clr, set_bg_clr] = useState("bg-neutral-0");
   const [get_name, set_get_name] = useState(null);
   const [get_image, set_get_image] = useState(null);
   const [get_item, set_get_item] = useState(null);
   // const { user, log_out } = useContext(AuthContext);
-  const { user } = useContext(AuthContext);
+  const { user, log_out } = useContext(AuthContext);
   const data = useLoaderData()["get_user"];
   const admins = useLoaderData()["get_admins"];
   const reviews = useLoaderData()["get_reviews"];
-
+  const [user_changes, set_user_changes] = useState(data);
   const [isAdmin, setAdmin] = useState(false);
+
+  // useEffect(() => {
+  //   console.log("changing")
+  //   set_user_changes(user_changes);
+  // }, [user_changes,data]);
+  const handleLogOut = () => {
+    log_out().then().catch();
+  };
+
   useEffect(() => {
     if (user) {
       data.map((item) => {
@@ -57,6 +67,7 @@ const Origin = () => {
       }
     } else {
       setAdmin(false);
+      set_get_item(null);
     }
   }, [user, data]);
   return (

@@ -15,11 +15,12 @@ const Event = ({ item }) => {
   const [get_item, set_get_item] = useContext(ItemContext);
   const [isAdmin, setAdmin] = useContext(AdminContext);
   const handleBook = async () => {
-    const user_cart = get_item["item"];
+    const user_cart = get_item && get_item["item"] ? get_item["item"] : null;
     // console.log(user_cart["cart"]);
-    const isExist = user_cart["cart"].length
-      ? get_item["item"]["cart"].some((i) => i._id === item._id)
-      : null;
+    const isExist =
+      user_cart && user_cart["cart"] && user_cart["cart"].length
+        ? get_item["item"]["cart"].some((i) => i._id === item._id)
+        : null;
     if (!user_cart) {
       swal("Attention!", "Please login first to access this page", "error");
       const timeout = (delay) => {
@@ -131,9 +132,8 @@ const Event = ({ item }) => {
       swal("Event deleted successfully", {
         icon: "success",
       });
-    }
-    else{
-        swal("Delete cancelled!");
+    } else {
+      swal("Delete cancelled!");
     }
   };
 

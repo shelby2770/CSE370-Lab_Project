@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import AuthProvider from "./AuthProvider";
 import LogIn from "./pages/LogIn";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import PurchaseEvents from "./pages/PurchaseEvents";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
         path: "/mycart",
         element: <MyCart></MyCart>,
         loader: () => fetch("http://localhost:3000/events"),
+      },
+      {
+        path: "/purchase_events",
+        element: <PurchaseEvents></PurchaseEvents>,
+        loader: () => fetch("http://localhost:3000/users"),
       },
       {
         path: "/register",

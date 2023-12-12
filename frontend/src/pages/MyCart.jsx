@@ -8,7 +8,12 @@ const MyCart = () => {
   const [isAdmin, setAdmin] = useContext(AdminContext);
   const data = useLoaderData();
   const [get_item, set_get_item] = useContext(ItemContext);
-  const user_item = get_item ? get_item["item"]["cart"] : null;
+  const user_item = get_item
+    ? get_item["item"]
+      ? get_item["item"]["cart"]
+      : null
+    : null;
+  // console.log(user_item);
   const handlePayment = async () => {
     const id = get_item["item"]["_id"];
     const name = get_item["item"]["name"];
@@ -17,6 +22,7 @@ const MyCart = () => {
     user_item.map((item) => {
       total_amount += parseInt(item.price);
     });
+    console.log(total_amount);
     const obj = { id, name, email, total_amount, user_item };
     const res = await fetch("http://localhost:3000/order", {
       method: "POST",
@@ -29,11 +35,10 @@ const MyCart = () => {
     window.location.replace(res_json.url);
     console.log(res_json);
   };
-  // console.log(user_item);
   return (
     <div className="m-10 min-h-screen">
       {!isAdmin ? (
-        user_item.length ? (
+        user_item && user_item.length ? (
           <>
             <div className="flex flex-col gap-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
